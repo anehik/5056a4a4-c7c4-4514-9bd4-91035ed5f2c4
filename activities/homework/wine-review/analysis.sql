@@ -7,21 +7,74 @@
  */
 
 -- EX.1) Get the top 10 countries with more population density
-
+SELECT name FROM country where area_km2 = 0;
+SELECT
+    name,
+    Div(population, area_km2) AS "density"
+FROM
+    country
+where
+    area_km2 > 0
+order by density desc
+limit 10
+;
 
 -- EX.2) Get the count of male/female tasters.
 
+SELECT distinct gender from taster;
+--distinct son todos los valores unicos
+select
+    gender,
+    count(*)
+from
+    taster
+where
+      --lower(gender) in ('male','female')
+    --lower(gender) NOT LIKE 'undef%'
+    lower(gender) LIKE '%male'
+group by
+    gender
+;
+
 
 -- EX.3) Get the percentage of male/female tasters.
+with taster_valid AS (
+    SELECT
+        *
+    from
+        taster
+    where
+        lower(gender) IN ('male','female')
+), taster_gender_agg AS (
+    select gender,
+           count(*) :: numeric(7, 2) gender_sum
+    from taster_valid
+    group by
+             gender
+), taster_total AS (
+    select
 
+select
+    *
+from
+    taster_gender_agg
+
+)
 
 -- EX.4) How many countries share the same first digit on their country-code?
 -- Show only those digits with more than 20 countries.
+select left(code,1) from country;
 
+(select
+    left(code,1) first_digit,
+    count(*) country count
+from
+    country
+group by
 
 -- EX.5) Get the % of countries are not labeled as a trillion usd gdp and
 -- do have a null happiness_score.
-
+select * from country;
 
 -- COUNTRY ANALYSIS
 
